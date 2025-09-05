@@ -1,0 +1,50 @@
+
+version: '3.8'
+
+services:
+  perplexity-news-bot:
+    build: .
+    container_name: perplexity-news-automation
+    restart: unless-stopped
+    environment:
+      - PERPLEXITY_EMAIL=${PERPLEXITY_EMAIL}
+      - PERPLEXITY_PASSWORD=${PERPLEXITY_PASSWORD}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TG_IT_CHANNEL=${TG_IT_CHANNEL}
+      - TG_AUTOMATION_CHANNEL=${TG_AUTOMATION_CHANNEL}
+      - TG_ROBOTICS_CHANNEL=${TG_ROBOTICS_CHANNEL}
+      - MAX_DAILY_QUERIES=${MAX_DAILY_QUERIES:-50}
+      - MIN_IMPORTANCE=${MIN_IMPORTANCE:-6}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sqlite3; sqlite3.connect('/app/data/perplexity_news.db').execute('SELECT 1').fetchone()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - perplexity-network
+
+  # Веб-интерфейс для мониторинга
+  web-dashboard:
+    build:
+      context: ./dashboard
+    container_name: perplexity-dashboard
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/app/data:ro
+      - ./logs:/app/logs:ro
+    networks:
+      - perplexity-network
+    depends_on:
+      - perplexity-news-bot
+
+networks:
+  perplexity-network:
+    driver: bridge
+
+volumes:
+  perplexity-data:
+  perplexity-logs:

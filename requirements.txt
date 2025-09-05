@@ -1,0 +1,34 @@
+# Core dependencies
+selenium==4.15.0
+python-telegram-bot==20.7
+beautifulsoup4==4.12.2
+schedule==1.2.0
+asyncio-mqtt==0.16.1
+aiohttp==3.9.1
+python-dotenv==1.0.0
+
+# Database
+sqlite3
+
+# Web scraping & automation  
+webdriver-manager==4.0.1
+requests==2.31.0
+lxml==4.9.3
+
+# Data processing
+pandas==2.1.4
+markdownify==0.11.6
+
+# Monitoring & logging
+psutil==5.9.6
+watchdog==3.0.0
+
+# Development tools (optional)
+pytest==7.4.3
+black==23.11.0
+flake8==6.1.0
+
+# Additional utilities
+pillow==10.1.0
+python-dateutil==2.8.2
+pyyaml==6.0.1

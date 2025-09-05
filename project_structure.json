@@ -1,0 +1,246 @@
+{
+  "project_info": {
+    "name": "Perplexity Pro News Automation System",
+    "version": "1.0.0",
+    "created_date": "2025-09-05",
+    "description": "Полная система автоматизации новостей с интеграцией Perplexity Pro для Telegram каналов",
+    "author": "AI Assistant",
+    "license": "MIT"
+  },
+  "core_system_files": {
+    "main.py": {
+      "description": "Основной модуль системы автоматизации",
+      "size_kb": 18,
+      "lines": 497,
+      "functions": 20,
+      "async_functions": 14,
+      "features": [
+        "NewsAutomationSystem главный класс",
+        "Автоматизация Perplexity через Selenium",
+        "Интеграция с Telegram Bot API",
+        "Планировщик сессий",
+        "Health check система",
+        "CLI команды",
+        "Обработка сигналов",
+        "Логирование и мониторинг"
+      ]
+    },
+    "config.py": {
+      "description": "Централизованная система конфигурации",
+      "size_kb": 25,
+      "lines": 559,
+      "features": [
+        "Валидация параметров",
+        "6 категорий шаблонов запросов",
+        "7 типов индикаторов важности",
+        "6 категорий ключевых слов",
+        "Настройки браузера и производительности",
+        "Экспорт конфигурации для API",
+        "Управление сессиями планировщика"
+      ]
+    }
+  },
+  "deployment_files": {
+    "docker-compose.yml": {
+      "description": "Оркестрация Docker контейнеров",
+      "services": [
+        "perplexity-news-bot - основная система",
+        "perplexity-dashboard - веб-интерфейс",
+        "redis - кэширование (опционально)",
+        "prometheus - мониторинг (опционально)"
+      ],
+      "features": [
+        "Health checks",
+        "Resource limits",
+        "Volume management",
+        "Network isolation",
+        "Logging configuration"
+      ]
+    },
+    "Dockerfile": {
+      "description": "Docker образ для системы",
+      "base_image": "python:3.11-slim",
+      "features": [
+        "Google Chrome установка",
+        "ChromeDriver автоматическая настройка",
+        "Non-root пользователь",
+        "Health check endpoint",
+        "Multi-stage оптимизация"
+      ]
+    },
+    "requirements.txt": {
+      "description": "Python зависимости",
+      "main_packages": [
+        "selenium==4.15.0 - автоматизация браузера",
+        "python-telegram-bot==20.7 - Telegram API",
+        "beautifulsoup4==4.12.2 - парсинг HTML",
+        "schedule==1.2.0 - планировщик задач",
+        "aiohttp==3.9.1 - async HTTP клиент",
+        "python-dotenv==1.0.0 - переменные окружения"
+      ]
+    }
+  },
+  "setup_and_config": {
+    "setup.sh": {
+      "description": "Автоматический скрипт установки",
+      "size_kb": 15,
+      "features": [
+        "Определение операционной системы",
+        "Автоматическая установка Docker",
+        "Выбор метода установки (Docker/Local/VPS)",
+        "Настройка файрвола для VPS",
+        "Настройка автозапуска",
+        "Проверка после установки",
+        "Цветной интерактивный интерфейс"
+      ]
+    },
+    ".env.example": {
+      "description": "Шаблон конфигурации с комментариями",
+      "size_kb": 4,
+      "sections": [
+        "Perplexity Pro учетные данные",
+        "Telegram Bot настройки",
+        "Системные лимиты и параметры",
+        "Планировщик сессий",
+        "Браузер настройки",
+        "Производительность и надежность",
+        "Мониторинг и резервное копирование"
+      ]
+    }
+  },
+  "documentation": {
+    "README.md": {
+      "description": "Главный файл проекта с обзором",
+      "sections": [
+        "Быстрый старт",
+        "Возможности системы",
+        "Экономика проекта",
+        "Структура проекта",
+        "Расписание работы",
+        "Мониторинг и аналитика",
+        "Примеры использования"
+      ]
+    },
+    "INSTALL.md": {
+      "description": "Подробная пошаговая установка",
+      "size_kb": 20,
+      "sections": [
+        "Системные требования",
+        "Подготовка учетных данных",
+        "3 способа установки (Docker/Local/VPS)",
+        "Настройка конфигурации",
+        "Первый запуск и тестирование",
+        "Проверка работоспособности",
+        "Устранение проблем"
+      ]
+    },
+    "COMPLETE-GUIDE.md": {
+      "description": "Полная инструкция пользователя",
+      "sections": [
+        "Быстрый старт за 5 минут",
+        "Что получаете",
+        "Планируемое расписание",
+        "Настройка учетных данных",
+        "Способы установки",
+        "Мониторинг и управление",
+        "Примеры использования",
+        "Частые проблемы и решения"
+      ]
+    }
+  },
+  "web_interface": {
+    "dashboard": {
+      "description": "Веб-интерфейс управления системой",
+      "url": "https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/8712483267080f7ffdf18adb9e1cc730/a5c240ed-7241-404e-b893-f7783e8a259c/index.html",
+      "features": [
+        "Dashboard с метриками (42/300 запросов)",
+        "Мониторинг запросов Perplexity",
+        "Управление постами с превью",
+        "Планировщик сессий",
+        "Аналитика и графики",
+        "Настройки системы",
+        "Логи в реальном времени",
+        "Responsive дизайн"
+      ]
+    }
+  },
+  "system_capabilities": {
+    "perplexity_integration": {
+      "subscription": "Perplexity Pro ($20/месяц)",
+      "daily_queries": 300,
+      "recommended_usage": 50,
+      "ai_models": [
+        "Claude 3.5 Sonnet",
+        "GPT-4 Omni",
+        "Grok-2",
+        "DeepSeek R1",
+        "Sonar Large/Pro models"
+      ],
+      "automation_method": "Selenium WebDriver"
+    },
+    "content_processing": {
+      "categories": [
+        "IT",
+        "AI",
+        "Automation",
+        "Robotics",
+        "Blockchain",
+        "Cloud"
+      ],
+      "importance_scale": "1-10 баллов",
+      "query_templates": 30,
+      "language_support": "Russian (primary), English",
+      "output_format": "Telegram-ready posts"
+    },
+    "telegram_publishing": {
+      "channels": "3+ одновременно",
+      "formatting": "Markdown + эмодзи + хештеги",
+      "scheduling": "4 сессии в день",
+      "rate_limiting": "30 секунд между сообщениями",
+      "error_handling": "Retry с экспоненциальной задержкой"
+    }
+  },
+  "performance_metrics": {
+    "daily_targets": {
+      "queries_per_day": 38,
+      "posts_per_day": 15,
+      "efficiency": "0.4 поста на запрос",
+      "cost_per_post": "$0.04",
+      "success_rate": ">95%"
+    },
+    "schedule": {
+      "morning": {
+        "time": "09:00",
+        "posts": 3,
+        "queries": 8
+      },
+      "afternoon": {
+        "time": "13:00",
+        "posts": 4,
+        "queries": 10
+      },
+      "evening": {
+        "time": "18:00",
+        "posts": 5,
+        "queries": 12
+      },
+      "night": {
+        "time": "22:00",
+        "posts": 3,
+        "queries": 8
+      }
+    }
+  },
+  "economics": {
+    "monthly_costs": {
+      "perplexity_pro": "$20",
+      "vps_optional": "$5-10",
+      "total": "$25-30"
+    },
+    "roi": {
+      "payback_period": "1-2 weeks",
+      "time_saved": "15-20 hours/week",
+      "content_quality": "AI-processed vs manual"
+    }
+  }
+}

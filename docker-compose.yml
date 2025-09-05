@@ -1,0 +1,117 @@
+version: '3.8'
+
+services:
+  perplexity-news-bot:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: perplexity-news-automation
+    restart: unless-stopped
+    environment:
+      # Perplexity Pro
+      - PERPLEXITY_EMAIL=${PERPLEXITY_EMAIL}
+      - PERPLEXITY_PASSWORD=${PERPLEXITY_PASSWORD}
+
+      # Telegram
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TG_IT_CHANNEL=${TG_IT_CHANNEL}
+      - TG_AUTOMATION_CHANNEL=${TG_AUTOMATION_CHANNEL}
+      - TG_ROBOTICS_CHANNEL=${TG_ROBOTICS_CHANNEL}
+
+      # System settings
+      - MAX_DAILY_QUERIES=${MAX_DAILY_QUERIES:-50}
+      - MIN_IMPORTANCE_TO_PUBLISH=${MIN_IMPORTANCE_TO_PUBLISH:-6}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+
+      # Browser settings
+      - BROWSER_HEADLESS=${BROWSER_HEADLESS:-true}
+      - BROWSER_TIMEOUT=${BROWSER_TIMEOUT:-30}
+
+      # Performance
+      - MAX_RETRY_ATTEMPTS=${MAX_RETRY_ATTEMPTS:-3}
+      - QUERY_DELAY_SECONDS=${QUERY_DELAY_SECONDS:-30}
+
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./temp:/app/temp
+      - /dev/shm:/dev/shm  # For Chrome stability
+
+    ports:
+      - "8081:8081"  # Health check endpoint
+
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8081/health', timeout=5).raise_for_status()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+    networks:
+      - perplexity-network
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+  # Web dashboard для мониторинга
+  perplexity-dashboard:
+    image: nginx:alpine
+    container_name: perplexity-dashboard
+    restart: unless-stopped
+    ports:
+      - "${DASHBOARD_PORT:-8080}:80"
+    volumes:
+      - ./dashboard:/usr/share/nginx/html:ro
+      - ./data:/usr/share/nginx/html/api/data:ro
+      - ./logs:/usr/share/nginx/html/api/logs:ro
+    networks:
+      - perplexity-network
+    depends_on:
+      - perplexity-news-bot
+
+  # Опциональный Redis для кэширования (для высоких нагрузок)
+  redis:
+    image: redis:7-alpine
+    container_name: perplexity-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - perplexity-network
+    profiles:
+      - advanced  # Запускается только с флагом --profile advanced
+
+  # Мониторинг ресурсов (опционально)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: perplexity-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - perplexity-network
+    profiles:
+      - monitoring
+
+networks:
+  perplexity-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local
